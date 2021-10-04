@@ -1,21 +1,64 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import AppLoading from "expo-app-loading";
+import { Asset } from "expo-asset";
+import * as Font from "expo-font";
+import { Provider } from "react-redux";
+import { applyMiddleware, createStore } from "redux";
+import { createLogger } from "redux-logger";
+import thunk from "redux-thunk";
+import RootNavigator from "./src/navigation/root.navigator";
+import reducers from "./src/redux/reducers";
+import { LogBox } from "react-native";
+import {
+  useFonts,
+  Lato_100Thin,
+  Lato_300Light,
+  Lato_400Regular,
+  Lato_700Bold,
+  Lato_900Black,
+} from "@expo-google-fonts/lato";
 
-export default function App() {
+LogBox.ignoreAllLogs(true);
+
+const loggerMiddleware = createLogger({ predicate: () => __DEV__ });
+const middleware = applyMiddleware(thunk, loggerMiddleware);
+const store = createStore(reducers, {}, middleware);
+
+const images = [];
+const fonts = {};
+
+export default (props) => {
+  const [fontsLoaded] = useFonts({
+    Lato_100Thin,
+    Lato_300Light,
+    Lato_400Regular,
+    Lato_700Bold,
+    Lato_900Black,
+  });
+  const [isLoadingComplete, setIsLoadingComplete] = React.useState(false);
+
+  const handleResourcesAsync = async () => {
+    const cacheImages = images.map((image) => {
+      return Asset.fromModule(image).downloadAsync();
+    });
+
+    return Promise.all([cacheImages, Font.loadAsync(fonts)]);
+  };
+
+  if (!fontsLoaded && !isLoadingComplete && !props.skipLoadingScreen) {
+    return (
+      <AppLoading
+        startAsync={handleResourcesAsync}
+        onError={(error) => console.warn(error)}
+        onFinish={() => setIsLoadingComplete(true)}
+      />
+    );
+  }
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <StatusBar barStyle="light-content" />
+      <RootNavigator />
+    </Provider>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+};
