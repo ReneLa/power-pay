@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, ActivityIndicator, Image } from "react-native";
 import {
   Container,
   Typography,
@@ -12,75 +12,111 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import { AntDesign, Entypo } from "@expo/vector-icons";
+import { connect, useSelector } from "react-redux";
+import { verifyMeter } from "../../redux/actions";
+import BuyEnergy from "../../components/Buy.modal";
+import FindMeter from "../../components/FindMeter.modal";
 
-const Home = () => {
+const Home = ({ verifyMeter }) => {
   const insets = useSafeAreaInsets();
+  const [meterNo, setMeter] = useState("");
+  const { meterInfo, verifying, savedMeters } = useSelector(({ User }) => User);
+  const handleSubmit = () => {
+    verifyMeter(meterNo);
+  };
+
+  const renderMeter = (mtr) => {
+    return (
+      <ActionButton
+        activeScale={0.95}
+        tension={50}
+        friction={7}
+        useNativeDriver
+        customStyles={{
+          backgroundColor: "rgba(215, 219, 221,0.9)",
+          flexDirection: "column",
+          alignItems: "flex-start",
+          justifyContent: "flex-start",
+          padding: 10,
+          borderRadius: 8,
+          marginBottom: 10,
+        }}
+      >
+        <Typography
+          color="#313131"
+          variant="title"
+          customStyles={{
+            fontFamily: "Lato_500Medium",
+            fontSize: 18,
+            marginBottom: 5,
+            // letterSpacing: -1,
+          }}
+        >
+          {mtr.name}
+        </Typography>
+        <Typography
+          color="#1A5276"
+          variant="title"
+          customStyles={{
+            fontFamily: "Lato_400Regular",
+            fontSize: 16,
+            marginBottom: 3,
+            // letterSpacing: -1,
+          }}
+        >
+          {`Pivot : ${mtr.pivot}`}
+        </Typography>
+      </ActionButton>
+    );
+  };
   return (
     <Container
       flex={1}
       customStyles={{ paddingHorizontal: 20, paddingTop: insets.top }}
     >
-      <Container column flex={0.2} customStyles={{ paddingTop: 30 }}>
+      {/* header  */}
+      <Container row center customStyles={{ paddingVertical: 10 }}>
         <Typography
-          variant="title"
           color="#313131"
-          customStyles={{
-            textAlign: "center",
-            fontSize: 17,
-            fontFamily: "Lato_700Bold",
-            marginBottom: 20,
-          }}
+          variant="h1"
+          customStyles={{ fontFamily: "Lato_600SemiBold", fontSize: 23 }}
         >
-          Enter Cash Power No.
+          Power Pay
         </Typography>
-        <Input
-          // value={query}
-          // onChangeText={(txt) => onChange(txt)}
-          // onFocus={() => animateWidth(true)}
-          // onBlur={() => animateWidth(false)}
-          returnKeyType="search"
-          placeholderTextColor="rgba(51,51,51,.6)"
-          inputStyles={{
-            color: "rgba(51,51,51,.9)",
-            fontSize: 16,
-            fontFamily: "Lato_400Regular",
-          }}
-          placeholder="Enter meter number"
-          inputWrapperStyles={{
-            borderRadius: 15,
-            backgroundColor: "rgba(49,49,49,0.2)",
-            height: hp(5.3),
-            margin: 0,
-            paddingHorizontal: 10,
-          }}
-          customStyles={{ flex: 1, margin: 0, padding: 0 }}
-          icon={<AntDesign name="search1" size={16} color="rgba(0,0,0,.5)" />}
-        />
       </Container>
-      <Container column flex={0.2} customStyles={{ paddingTop: 10 }}>
+
+      {/* action buttons */}
+      <Container
+        row
+        center
+        customStyles={{ paddingVertical: 10 }}
+        space="space-between"
+      >
+        <BuyEnergy />
+        <FindMeter />
+      </Container>
+
+      {/* Saved meter number */}
+      <Container customStyles={{ paddingTop: 20 }}>
         <Typography
-          variant="title"
-          color="#313131"
+          color="#A6ACAF"
           customStyles={{
-            textAlign: "center",
-            fontSize: 17,
-            fontFamily: "Lato_700Bold",
-            marginBottom: 20,
+            fontFamily: "Lato_500Medium",
+            fontSize: 16,
+            marginBottom: 10,
           }}
         >
-          You Saved Meters
+          Recent Meters
         </Typography>
-        {[1, 2].map((mtr) => {
-          return <ActionButton></ActionButton>;
-        })}
+        {savedMeters.map((mtr) => renderMeter(mtr))}
       </Container>
     </Container>
   );
 };
 
-export default Home;
+export default connect(null, { verifyMeter })(Home);
 const styles = StyleSheet.create({
-  container: {
+  btnTiles: {
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",

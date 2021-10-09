@@ -3,6 +3,12 @@ const initialState = {
   isAuthenticating: false,
   currentUser: null,
   error: null,
+  verifying: false,
+  meterInfo: null,
+  savedMeters: [
+    { name: "Dorcas Meyers", pivot: "23421492813321" },
+    { name: "Jack Golbert", pivot: "0103000753842" },
+  ],
 };
 
 export default (state = initialState, action) => {
@@ -24,6 +30,20 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isAuthenticating: false,
+        error: action.payload,
+      };
+    case "VERIFY":
+      return {
+        verifying: true,
+      };
+    case "VERIFY_SUCCESS":
+      return {
+        verifying: false,
+        meterInfo: action.payload,
+      };
+    case "VERIFY_FAIL":
+      return {
+        verifying: false,
         error: action.payload,
       };
     case actionTypes.refreshData:

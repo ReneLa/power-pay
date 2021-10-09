@@ -44,3 +44,18 @@ export const logout = () => {
       .catch((error) => console.log(error));
   };
 };
+
+export const verifyMeter = (data) => {
+  return (dispatch) => {
+    dispatch({ type: "VERIFY" });
+
+    var config = {
+      method: "post",
+      url: `${testUrl}/auth/`,
+    };
+
+    axios(config)
+      .then((res) => console.log(res))
+      .catch((error) => console.log(error));
+  };
+};

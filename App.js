@@ -25,7 +25,11 @@ const loggerMiddleware = createLogger({ predicate: () => __DEV__ });
 const middleware = applyMiddleware(thunk, loggerMiddleware);
 const store = createStore(reducers, {}, middleware);
 
-const images = [];
+const images = [
+  require("./assets/icons/energy.png"),
+  require("./assets/icons/save.png"),
+  require("./assets/icons/search.png"),
+];
 const fonts = {};
 
 export default (props) => {
