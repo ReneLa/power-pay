@@ -29,6 +29,7 @@ import Modal from "react-native-modal";
 import moment from "moment";
 import { ifIphoneX } from "react-native-iphone-x-helper";
 import ChooseMeter from "./ChooseMeter.picker";
+import Paying from "./loaders/Paying";
 
 const BuyEnergy = ({ navigation }) => {
   const [visible, setVisible] = useState(false);
@@ -38,6 +39,8 @@ const BuyEnergy = ({ navigation }) => {
   const [lName, saveLName] = useState("");
   const [email, saveEmail] = useState("");
   const [meter, saveMeter] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   return (
     <ActionButton
       onPress={() => setVisible(true)}
@@ -250,6 +253,7 @@ const BuyEnergy = ({ navigation }) => {
                 bottom: 0,
                 paddingHorizontal: 15,
                 paddingTop: 15,
+                height: hp(10),
                 ...ifIphoneX({ paddingBottom: 30 }, { paddingBottom: 15 }),
               }}
             >
@@ -261,26 +265,38 @@ const BuyEnergy = ({ navigation }) => {
                   height: "100%",
                 }}
               >
-                <PrimaryButton
-                  bgColor="rgba(231, 76, 60,0.9)"
-                  customStyles={{
-                    borderRadius: 20,
-                    paddingTop: 10,
-                    paddingBottom: 10,
-                    width: "70%",
-                  }}
-                >
-                  <Typography
-                    variant="caption2"
-                    color="#fff"
+                {loading ? (
+                  <Paying />
+                ) : (
+                  <PrimaryButton
+                    onPress={() => {
+                      setLoading(true);
+                      setTimeout(() => {
+                        setLoading(false);
+                        setVisible(false);
+                        navigation.navigate("CREDITS");
+                      }, 2000);
+                    }}
+                    bgColor="rgba(231, 76, 60,0.9)"
                     customStyles={{
-                      fontSize: 16,
-                      fontFamily: "RobotoSlab_500Medium",
+                      borderRadius: 20,
+                      paddingTop: 10,
+                      paddingBottom: 10,
+                      width: "70%",
                     }}
                   >
-                    Confirm Pay
-                  </Typography>
-                </PrimaryButton>
+                    <Typography
+                      variant="caption2"
+                      color="#fff"
+                      customStyles={{
+                        fontSize: 16,
+                        fontFamily: "RobotoSlab_500Medium",
+                      }}
+                    >
+                      Confirm Pay
+                    </Typography>
+                  </PrimaryButton>
+                )}
               </Container>
             </Container>
           </Container>

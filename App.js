@@ -29,6 +29,7 @@ const images = [
   require("./assets/icons/energy.png"),
   require("./assets/icons/save.png"),
   require("./assets/icons/search.png"),
+  require("./assets/animations/paying.json"),
 ];
 const fonts = {};
 

@@ -17,7 +17,7 @@ import { verifyMeter } from "../../redux/actions";
 import BuyEnergy from "../../components/Buy.modal";
 import FindMeter from "../../components/FindMeter.modal";
 
-const Home = ({ verifyMeter }) => {
+const Home = ({ navigation, verifyMeter }) => {
   const insets = useSafeAreaInsets();
   const [meterNo, setMeter] = useState("");
   const { meterInfo, verifying, savedMeters } = useSelector(({ User }) => User);
@@ -92,7 +92,7 @@ const Home = ({ verifyMeter }) => {
         customStyles={{ paddingVertical: 10 }}
         space="space-between"
       >
-        <BuyEnergy />
+        <BuyEnergy navigation={navigation} />
         <FindMeter />
       </Container>
 

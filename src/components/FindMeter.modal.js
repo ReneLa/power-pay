@@ -124,9 +124,7 @@ const FindMeter = ({ navigation }) => {
                 center
                 customStyles={{
                   paddingBottom: 15,
-                  borderBottomWidth: 0.5,
-                  borderBottomColor: "rgba(0,0,0,.2)",
-                  marginBottom: 40,
+                  marginBottom: 20,
                 }}
               >
                 <Typography
@@ -138,18 +136,7 @@ const FindMeter = ({ navigation }) => {
                     fontFamily: "Lato_600SemiBold",
                   }}
                 >
-                  Verify Meter No.
-                </Typography>
-                <Typography
-                  variant="title"
-                  color="rgba(49,49,49,0.7)"
-                  customStyles={{
-                    fontSize: 17,
-                    marginBottom: 3,
-                    fontFamily: "Lato_400Regular",
-                  }}
-                >
-                  Please meter number
+                  Find Meter No.
                 </Typography>
               </Container>
               <Container
@@ -219,7 +206,7 @@ const FindMeter = ({ navigation }) => {
                       fontFamily: "RobotoSlab_500Medium",
                     }}
                   >
-                    Verify
+                    Send
                   </Typography>
                 </PrimaryButton>
               </Container>
