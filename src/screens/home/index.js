@@ -16,11 +16,15 @@ import { connect, useSelector } from "react-redux";
 import { verifyMeter } from "../../redux/actions";
 import BuyEnergy from "../../components/Buy.modal";
 import FindMeter from "../../components/FindMeter.modal";
+import AccountDetails from "../../components/AccountDetails.modal";
 
 const Home = ({ navigation, verifyMeter }) => {
   const insets = useSafeAreaInsets();
   const [meterNo, setMeter] = useState("");
   const { meterInfo, verifying, savedMeters } = useSelector(({ User }) => User);
+  const [chosenMeter, setChooseMeter] = useState(null);
+  const [buyCredits, setBuyCredits] = useState(false);
+
   const handleSubmit = () => {
     verifyMeter(meterNo);
   };
@@ -28,6 +32,9 @@ const Home = ({ navigation, verifyMeter }) => {
   const renderMeter = (mtr) => {
     return (
       <ActionButton
+        onPress={() => {
+          setChooseMeter(mtr);
+        }}
         activeScale={0.95}
         tension={50}
         friction={7}
@@ -92,7 +99,11 @@ const Home = ({ navigation, verifyMeter }) => {
         customStyles={{ paddingVertical: 10 }}
         space="space-between"
       >
-        <BuyEnergy navigation={navigation} />
+        <BuyEnergy
+          navigation={navigation}
+          visible={buyCredits}
+          setVisible={setBuyCredits}
+        />
         <FindMeter />
       </Container>
 
@@ -110,6 +121,14 @@ const Home = ({ navigation, verifyMeter }) => {
         </Typography>
         {savedMeters.map((mtr) => renderMeter(mtr))}
       </Container>
+      {chosenMeter && (
+        <AccountDetails
+          navigation={navigation}
+          visible={chosenMeter}
+          setVisible={setChooseMeter}
+          showBuy={setBuyCredits}
+        />
+      )}
     </Container>
   );
 };

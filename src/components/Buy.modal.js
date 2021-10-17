@@ -31,8 +31,7 @@ import { ifIphoneX } from "react-native-iphone-x-helper";
 import ChooseMeter from "./ChooseMeter.picker";
 import Paying from "./loaders/Paying";
 
-const BuyEnergy = ({ navigation }) => {
-  const [visible, setVisible] = useState(false);
+const BuyEnergy = ({ navigation, visible, setVisible }) => {
   const [pickerVisible, setPickerVisible] = useState(false);
   const {} = useSelector(({ User }) => User);
   const [fName, saveFName] = useState("");
