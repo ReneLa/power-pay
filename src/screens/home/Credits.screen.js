@@ -34,22 +34,55 @@ const CreditsDetails = ({ navigation }) => {
         <Typography
           color="#313131"
           variant="h1"
-          customStyles={{ fontFamily: "Lato_600SemiBold", fontSize: 23 }}
+          customStyles={{
+            fontFamily: "Lato_600SemiBold",
+            fontSize: 23,
+            marginBottom: 20,
+          }}
         >
           Power Pay
         </Typography>
-        <Typography
-          color="#1A5276"
-          variant="title"
-          customStyles={{
-            fontFamily: "Lato_400Regular",
-            fontSize: 16,
-            marginBottom: 10,
-            // letterSpacing: -1,
-          }}
+      </Container>
+      <Container
+        flex={0.6}
+        bgColor="rgba(214, 219, 223,0.9)"
+        customStyles={{ marginHorizontal: 15, borderRadius: 10, padding: 20 }}
+      >
+        <Container middle center>
+          <Typography variant="title" color="rgba(51,51,51,0.7)">
+            Okay, Purchase successful
+          </Typography>
+        </Container>
+        <Container middle center>
+          <Typography
+            variant="title"
+            color="rgba(51,51,51,0.7)"
+            customStyles={{ fontSize: 18 }}
+          >
+            01030009272321
+          </Typography>
+        </Container>
+        <Container middle center>
+          <Typography
+            variant="title"
+            color="rgba(51,51,51,0.7)"
+            customStyles={{ fontSize: 18 }}
+          >
+            Rene La
+          </Typography>
+        </Container>
+        <Container
+          middle
+          center
+          flex={0.6}
+          // bgColor="red"
+          customStyles={{ marginTop: 10 }}
         >
-          0103000907210
-        </Typography>
+          <Image
+            source={require("../../../assets/icons/checked.png")}
+            style={{ width: 80, height: 80, marginBottom: 20 }}
+          />
+        </Container>
       </Container>
     </Container>
   );

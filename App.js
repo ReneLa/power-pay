@@ -30,6 +30,7 @@ const images = [
   require("./assets/icons/save.png"),
   require("./assets/icons/search.png"),
   require("./assets/animations/paying.json"),
+  require('./assets/icons/checked.png')
 ];
 const fonts = {};
 
