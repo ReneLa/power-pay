@@ -27,16 +27,17 @@ import { ifIphoneX } from "react-native-iphone-x-helper";
 const HistoryTrans = ({ navigation }) => {
   const insets = useSafeAreaInsets();
   const [meterNo, setMeter] = useState("");
-  const {} = useSelector(({ User }) => User);
+  const { history, fetching } = useSelector(({ Meter }) => Meter);
 
   const renderHistory = (hist) => {
+    const { top_up_date, new_unit, balance } = hist;
     return (
       <Container
         row
         bgColor="rgba(215, 219, 221,0.5)"
         customStyles={{ marginBottom: 15, padding: 20, borderRadius: 10 }}
       >
-        <Container column flex={0.4} space="flex-end">
+        <Container column flex={1} space="flex-end">
           <Typography
             variant="title"
             color="rgba(51,51,51,0.8)"
@@ -49,10 +50,10 @@ const HistoryTrans = ({ navigation }) => {
             color="rgba(51,51,51,0.9)"
             customStyles={{ fontSize: 20 }}
           >
-            96.90
+            {new_unit}
           </Typography>
         </Container>
-        <Container column flex={0.6} space="flex-end" customStyles={{}}>
+        <Container column space="flex-end" customStyles={{}}>
           <Container row space="space-between">
             <Typography
               variant="title"
@@ -66,12 +67,16 @@ const HistoryTrans = ({ navigation }) => {
               color="rgba(51,51,51,0.8)"
               customStyles={{ marginBottom: 10 }}
             >
-              20000
+              {balance}
             </Typography>
           </Container>
           <Container row space="flex-end">
-            <Typography variant="title" color="rgba(51,51,51,0.7)">
-              on October 28, 2021
+            <Typography
+              variant="title"
+              color="rgba(51,51,51,0.7)"
+              customStyles={{ fontSize: 16 }}
+            >
+              {`${new Date(top_up_date).toDateString()}`}
             </Typography>
           </Container>
         </Container>
@@ -95,27 +100,23 @@ const HistoryTrans = ({ navigation }) => {
           Purchase History
         </Typography>
       </Container>
-      <ScrollView style={{ flex: 1 }}>
-        <Typography
-          variant="title"
-          color="rgba(51,51,51,0.8)"
-          customStyles={{ marginBottom: 10 }}
-        >
-          Today
-        </Typography>
-        {/* Current credits */}
-        {[1].map((hst) => renderHistory(hst))}
-
-        <Typography
-          variant="title"
-          color="rgba(51,51,51,0.8)"
-          customStyles={{ marginBottom: 10 }}
-        >
-          Last Months
-        </Typography>
-        {/* Current credits */}
-        {[1, 2, 3].map((hst) => renderHistory(hst))}
-      </ScrollView>
+      {fetching ? (
+        <Container flex={1} column middle center>
+          <ActivityIndicator size="small" color="#000" />
+        </Container>
+      ) : (
+        <ScrollView style={{ flex: 1 }}>
+          <Typography
+            variant="title"
+            color="rgba(51,51,51,0.8)"
+            customStyles={{ marginBottom: 20 }}
+          >
+            All
+          </Typography>
+          {/* Current credits */}
+          {history?.map((hst) => renderHistory(hst))}
+        </ScrollView>
+      )}
     </Container>
   );
 };

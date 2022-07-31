@@ -32,7 +32,7 @@ const ChooseMeters = ({
   saveMeter,
   meter,
 }) => {
-  const { savedMeters } = useSelector(({ User }) => User);
+  // const { savedMeters } = useSelector(({ User }) => User);
 
   return Platform.OS === "ios" ? (
     <ActionButton
@@ -86,9 +86,9 @@ const ChooseMeters = ({
             itemStyle={{ color: "rgba(41,41,41,.9)", fontWeight: "bold" }}
             onValueChange={(itemValue, itemIndex) => saveMeter(itemValue)}
           >
-            {savedMeters.map((mtr, i) => (
+            {/* {savedMeters.map((mtr, i) => (
               <Picker.Item key={1} label={mtr.name} value={mtr.pivot} />
-            ))}
+            ))} */}
           </Picker>
         </View>
       </Modal>

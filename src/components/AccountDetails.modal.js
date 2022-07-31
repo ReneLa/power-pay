@@ -31,7 +31,6 @@ import { ifIphoneX } from "react-native-iphone-x-helper";
 
 const AccountDetails = ({ navigation, visible, setVisible, showBuy }) => {
   const [userDetails, saveUserDetails] = useState(null);
-  const {} = useSelector(({ User }) => User);
   const [fName, saveFName] = useState("");
   const [lName, saveLName] = useState("");
   const [email, saveEmail] = useState("");

@@ -1,42 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  ActivityIndicator,
-  Text,
-  TouchableOpacity,
-  View,
-  Platform,
-  ScrollView,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
   Image,
+  KeyboardAvoidingView,
+  ScrollView,
+  TouchableWithoutFeedback,
 } from "react-native";
-import Dash from "react-native-dash";
-import { connect, useSelector } from "react-redux";
-import {} from "../redux/actions";
-import {
-  Container,
-  PrimaryButton,
-  Typography,
-  ActionButton,
-  Input,
-} from "./styles";
+import { ifIphoneX } from "react-native-iphone-x-helper";
+import Modal from "react-native-modal";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import { AntDesign, Feather, Ionicons } from "@expo/vector-icons";
-import Modal from "react-native-modal";
-import moment from "moment";
-import { ifIphoneX } from "react-native-iphone-x-helper";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { get_pivot_info } from "../redux/actions";
+import {
+  ActionButton,
+  Container,
+  Input,
+  PrimaryButton,
+  Typography,
+} from "./styles";
+import { useNavigation } from "@react-navigation/native";
 
-const FindMeter = ({ navigation }) => {
+const FindMeter = () => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const { fetching, pivot } = useSelector(({ Meter }) => Meter);
   const [visible, setVisible] = useState(false);
-  const [userDetails, saveUserDetails] = useState(null);
-  const {} = useSelector(({ User }) => User);
-  const [fName, saveFName] = useState("");
-  const [lName, saveLName] = useState("");
-  const [email, saveEmail] = useState("");
+  const [meter, saveMeter] = useState("01020304051");
 
+  useEffect(() => {
+    if (pivot) {
+      setVisible(false);
+      navigation.navigate("METER-DETAILS");
+    }
+  }, [pivot]);
+  const onPress = () => {
+    dispatch(get_pivot_info(meter));
+  };
   return (
     <ActionButton
       onPress={() => setVisible(true)}
@@ -146,9 +147,9 @@ const FindMeter = ({ navigation }) => {
                 customStyles={{ marginBottom: 8, paddingHorizontal: 20 }}
               >
                 <Input
-                  value={fName}
+                  value={meter}
                   autoFocus
-                  onChangeText={(txt) => saveFName(txt)}
+                  onChangeText={(txt) => saveMeter(txt)}
                   placeholder="Enter meter no."
                   placeholderTextColor="rgba(51,51,51,.6)"
                   inputStyles={{
@@ -190,6 +191,7 @@ const FindMeter = ({ navigation }) => {
                 }}
               >
                 <PrimaryButton
+                  onPress={onPress}
                   bgColor="rgba(231, 76, 60,0.9)"
                   customStyles={{
                     borderRadius: 20,
@@ -206,7 +208,7 @@ const FindMeter = ({ navigation }) => {
                       fontFamily: "RobotoSlab_500Medium",
                     }}
                   >
-                    Send
+                    {fetching ? "Fetching" : "Send"}
                   </Typography>
                 </PrimaryButton>
               </Container>

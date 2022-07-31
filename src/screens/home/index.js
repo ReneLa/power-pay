@@ -12,7 +12,7 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import { AntDesign, Entypo } from "@expo/vector-icons";
-import { connect, useSelector } from "react-redux";
+import { connect, useSelector, useDispatch } from "react-redux";
 import { verifyMeter } from "../../redux/actions";
 import BuyEnergy from "../../components/Buy.modal";
 import FindMeter from "../../components/FindMeter.modal";
@@ -20,8 +20,9 @@ import AccountDetails from "../../components/AccountDetails.modal";
 
 const Home = ({ navigation, verifyMeter }) => {
   const insets = useSafeAreaInsets();
+  const dispatch = useDispatch();
   const [meterNo, setMeter] = useState("");
-  const { meterInfo, verifying, savedMeters } = useSelector(({ User }) => User);
+  // const { meterInfo, verifying, savedMeters } = useSelector(({ User }) => User);
   const [chosenMeter, setChooseMeter] = useState(null);
   const [buyCredits, setBuyCredits] = useState(false);
 
@@ -99,11 +100,49 @@ const Home = ({ navigation, verifyMeter }) => {
         customStyles={{ paddingVertical: 10 }}
         space="space-between"
       >
-        <BuyEnergy
-          navigation={navigation}
-          visible={buyCredits}
-          setVisible={setBuyCredits}
-        />
+        <ActionButton
+          onPress={() => setBuyCredits(true)}
+          activeScale={0.95}
+          tension={50}
+          friction={7}
+          useNativeDriver
+          customStyles={{
+            height: wp(40),
+            width: wp(43),
+            flexDirection: "column",
+            alignItems: "flex-start",
+            justifyContent: "space-around",
+            padding: 10,
+            backgroundColor: "rgba(52, 73, 94,0.8)",
+            borderRadius: 8,
+          }}
+        >
+          <Container column>
+            <Typography
+              color="#fff"
+              variant="h1"
+              customStyles={{
+                fontFamily: "Lato_600SemiBold",
+                fontSize: 20,
+                marginBottom: 3,
+              }}
+            >
+              Buy
+            </Typography>
+            <Typography
+              color="#fff"
+              variant="title"
+              customStyles={{ fontFamily: "Lato_500Medium", fontSize: 16 }}
+            >
+              Electricity
+            </Typography>
+          </Container>
+          <Image
+            source={require("../../../assets/icons/energy.png")}
+            style={{ width: 40, height: 40 }}
+          />
+        </ActionButton>
+
         <FindMeter />
       </Container>
 
@@ -119,7 +158,7 @@ const Home = ({ navigation, verifyMeter }) => {
         >
           Recent Meters
         </Typography>
-        {savedMeters.map((mtr) => renderMeter(mtr))}
+        {/* {savedMeters.map((mtr) => renderMeter(mtr))} */}
       </Container>
       {chosenMeter && (
         <AccountDetails
@@ -129,6 +168,11 @@ const Home = ({ navigation, verifyMeter }) => {
           showBuy={setBuyCredits}
         />
       )}
+      <BuyEnergy
+        navigation={navigation}
+        visible={buyCredits}
+        setVisible={setBuyCredits}
+      />
     </Container>
   );
 };

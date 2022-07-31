@@ -30,7 +30,7 @@ const images = [
   require("./assets/icons/save.png"),
   require("./assets/icons/search.png"),
   require("./assets/animations/paying.json"),
-  require('./assets/icons/checked.png')
+  require("./assets/icons/checked.png"),
 ];
 const fonts = {};
 
@@ -63,7 +63,7 @@ export default (props) => {
   }
   return (
     <Provider store={store}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar barStyle="dark-content" />
       <RootNavigator />
     </Provider>
   );
