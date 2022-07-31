@@ -16,7 +16,9 @@ import { connect, useSelector } from "react-redux";
 import { verifyMeter } from "../../redux/actions";
 import BuyEnergy from "../../components/Buy.modal";
 import FindMeter from "../../components/FindMeter.modal";
+import Alert from "../../components/alert";
 import AccountDetails from "../../components/AccountDetails.modal";
+import Emergency from "../../components/emergency";
 
 const Home = ({ navigation, verifyMeter }) => {
   const insets = useSafeAreaInsets();
@@ -24,6 +26,9 @@ const Home = ({ navigation, verifyMeter }) => {
   const { meterInfo, verifying, savedMeters } = useSelector(({ User }) => User);
   const [chosenMeter, setChooseMeter] = useState(null);
   const [buyCredits, setBuyCredits] = useState(false);
+  
+  let emergency =
+    "Please bbare with us as we are planning to repair bobin on your Area and we are expecting to cut off electricity from 1 Am to  5AM";
 
   const handleSubmit = () => {
     verifyMeter(meterNo);
@@ -96,7 +101,7 @@ const Home = ({ navigation, verifyMeter }) => {
       <Container
         row
         center
-        customStyles={{ paddingVertical: 10 }}
+        customStyles={{ paddingVertical: 10}}
         space="space-between"
       >
         <BuyEnergy
@@ -105,7 +110,18 @@ const Home = ({ navigation, verifyMeter }) => {
           setVisible={setBuyCredits}
         />
         <FindMeter />
+        
       </Container>
+
+      <Container
+        row
+        center
+        customStyles={{ paddingVertical: 10}}
+        space="space-between"
+      >
+        <Alert/>
+        <Emergency/>
+        </Container>
 
       {/* Saved meter number */}
       <Container customStyles={{ paddingTop: 20 }}>
