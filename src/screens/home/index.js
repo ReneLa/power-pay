@@ -17,6 +17,8 @@ import { verifyMeter } from "../../redux/actions";
 import BuyEnergy from "../../components/Buy.modal";
 import FindMeter from "../../components/FindMeter.modal";
 import AccountDetails from "../../components/AccountDetails.modal";
+import Emergency from "../../components/emergency";
+import Alert from "../../components/alert";
 
 const Home = ({ navigation, verifyMeter }) => {
   const insets = useSafeAreaInsets();
@@ -145,6 +147,16 @@ const Home = ({ navigation, verifyMeter }) => {
 
         <FindMeter />
       </Container>
+
+      <Container
+        row
+        center
+        customStyles={{ paddingVertical: 10}}
+        space="space-between"
+      >
+        <Alert/>
+        <Emergency/>
+        </Container>
 
       {/* Saved meter number */}
       <Container customStyles={{ paddingTop: 20 }}>
